@@ -1,12 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Snapshot from "@/views/Snapshot";
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
+    name: 'Snapshot',
+    component: Snapshot
+  },
+  {
+    path: '/schedule',
     name: 'Schedule',
     component: Home
   },

@@ -1,5 +1,7 @@
 <template>
-
+<v-row>
+	A list of assignments
+</v-row>
 </template>
 
 <script>

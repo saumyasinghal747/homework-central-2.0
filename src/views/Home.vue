@@ -1,9 +1,9 @@
 <template>
-  <v-row class="fill-height">
+  <v-row  class="fill-height">
     <v-col>
-      <v-sheet >
+      <v-sheet style="position: fixed;top: 0;z-index: 4;width: 100%;margin-bottom: 100px"  >
         <v-toolbar
-                flat
+        flat
         >
           <v-btn
                   outlined
@@ -35,7 +35,7 @@
               mdi-chevron-right
             </v-icon>
           </v-btn>
-          <v-toolbar-title v-if="$refs.calendar">
+          <v-toolbar-title class="d-none d-sm-inline" v-if="$refs.calendar">
             {{ $refs.calendar.title }}
           </v-toolbar-title>
           <v-spacer></v-spacer>
@@ -50,47 +50,59 @@
                       v-bind="attrs"
                       v-on="on"
               >
-                <span>{{ typeToLabel[type] }}</span>
+                <span>{{ typeToLabel[$store.state.calendarType ] }}</span>
                 <v-icon right>
                   mdi-menu-down
                 </v-icon>
               </v-btn>
             </template>
             <v-list>
-              <v-list-item @click="type = 'day'">
+              <v-list-item @click="$store.state.calendarType = 'day'">
                 <v-list-item-title>Day</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="type = 'week'">
+              <v-list-item @click="$store.state.calendarType  = 'week'">
                 <v-list-item-title>Week</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="type = 'month'">
+              <v-list-item @click="$store.state.calendarType  = 'month'">
                 <v-list-item-title>Month</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="type = '4day'">
+              <v-list-item @click="$store.state.calendarType  = '4day'">
                 <v-list-item-title>4 days</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
+          
         </v-toolbar>
       </v-sheet>
-      <v-sheet style="height: 100%" height="600">
+      <v-sheet style="margin-top:54px;height: calc(100vh - 125px);overflow-y:scroll;bottom:56px;overflow-x:hidden" height="600">
         <v-calendar
+                
                 ref="calendar"
                 v-model="focus"
                 color="primary"
                 :events="events"
                 :event-color="getEventColor"
-                :type="type"
-                @click:event="showEvent"
+                :type="$store.state.calendarType"
+                :key="$store.state.notRnd"
                 @click:more="viewDay"
                 @click:date="viewDay"
                 @change="updateRange"
-        ></v-calendar>
+        >
+          <!--@click:event="showEvent"-->
+          <template v-slot:day-body="{ date, week }">
+            <div
+                    :class="{ first: true || date === week[0].date, 'v-current-time':ready && cal.times.now.date===date }"
+                    :style="{ top: nowY }"
+            ></div>
+          </template>
+        </v-calendar>
         <v-menu
                 v-model="selectedOpen"
                 :close-on-content-click="false"
                 :activator="selectedElement"
+                max-width="400px"
                 offset-x
+                offset-y
         >
           <v-card
                   color="grey lighten-4"
@@ -101,28 +113,35 @@
                     :color="selectedEvent.color"
                     dark
             >
-              <v-btn icon>
+              <!--<v-btn icon>
                 <v-icon>mdi-pencil</v-icon>
-              </v-btn>
+              </v-btn>-->
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-btn icon>
+              <!--<v-btn icon>
                 <v-icon>mdi-heart</v-icon>
-              </v-btn>
+              </v-btn>-->
               <v-btn icon>
                 <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
             </v-toolbar>
             <v-card-text>
-              <span v-html="selectedEvent.details"></span>
+              <v-text-field flat v-model="($store.state.customizations[selectedEvent.name]||{name:''}).name"></v-text-field>
             </v-card-text>
             <v-card-actions>
               <v-btn
                       text
-                      color="secondary"
+                      color="primary"
                       @click="selectedOpen = false"
               >
-                Cancel
+                Close
+              </v-btn>
+              <v-btn
+                      text
+                      color="primary"
+                      
+              >
+                Mark all as done
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -136,7 +155,8 @@
   export default {
     data: () => ({
       focus: '',
-      type: 'month',
+      type: 'day',
+      ready:false,
       typeToLabel: {
         month: 'Month',
         week: 'Week',
@@ -151,9 +171,24 @@
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
     }),
     mounted () {
-      this.$refs.calendar.checkChange()
+      this.$refs.calendar.checkChange();
+      this.ready = true
+      this.scrollToTime()
+      this.updateTime()
     },
     methods: {
+      getCurrentTime () {
+        return this.cal ? this.cal.times.now.hour * 60 + this.cal.times.now.minute : 0
+      },
+      scrollToTime () {
+        const time = this.getCurrentTime()
+        const first = Math.max(0, time - (time % 30) - 30)
+    
+        this.cal.scrollToTime(first)
+      },
+      updateTime () {
+        setInterval(() => this.cal.updateTimes(), 60 * 1000)
+      },
       viewDay ({ date }) {
         this.focus = date
         this.type = 'day'
@@ -193,31 +228,37 @@
         
         const min = new Date(`${start.date}T00:00:00`)
         const max = new Date(`${end.date}T23:59:59`)
-        const days = (max.getTime() - min.getTime()) / 86400000
-        const eventCount = this.rnd(days, days + 20)
+        const now = new Date();
+        const days = (max.getTime() - min.getTime()) / 86400000 //amount of days
         
-        for (let i = 0; i < eventCount; i++) {
-          const allDay = this.rnd(0, 3) === 0
-          const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-          const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-          const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-          const second = new Date(first.getTime() + secondTimestamp)
+        
+        for (let i = 0; i < days; i++) {
           
-          events.push({
-            name: this.names[this.rnd(0, this.names.length - 1)],
-            start: first,
-            end: second,
-            color: this.colors[this.rnd(0, this.colors.length - 1)],
-            timed: !allDay,
-          })
+          const newDay = min.addDays(i);
+          const schedForDay = this.$store.getters.scheduleForDate(newDay)
+          // i represents the day of the week we are going for
+          if (!schedForDay){
+            continue
+          }
+         for (let period of schedForDay){
+           //console.log(period)
+           events.push(period)
+         }
         }
-        
+        //console.log(events)
         this.events = events
-      },
-      rnd (a, b) {
-        return Math.floor((b - a + 1) * Math.random()) + a
-      },
+      }
     },
+    computed: {
+      cal () {
+        return this.ready ? this.$refs.calendar : null
+      },
+      nowY () {
+        console.log(this.cal? this.cal.times.now.date: "")
+        return this.cal ? this.cal.timeToY(this.cal.times.now) + 'px' : '-10px'
+        
+      }
+    }
   }
 </script>
 <style lang="scss">

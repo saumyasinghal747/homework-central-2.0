@@ -1,12 +1,12 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
-
+import colors from 'vuetify/lib/util/colors'
 Vue.use(Vuetify);
 const myTheme = {
-    primary: '#4eb0ce',
+    primary: colors.blue.base,
     secondary: '#434ac1',
-    accent: '#82B1FF',
-    error: '#FF5252',
+    accent: '#0b00c9',
+    error: '#ff5252',
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FFC107',
@@ -16,6 +16,8 @@ export default new Vuetify({
         themes:{
             light: myTheme,
             dark: myTheme
-        }
+        },
+        dark: false,
+
     }
 });
