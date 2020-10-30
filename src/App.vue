@@ -4,7 +4,7 @@
       <router-view ref="routerView"/>
     </v-main>
     <BottomNav />
-    <Assignment/>
+    <Assignment :key="$store.state.notRnd" />
     <v-dialog
             v-model="$store.state.settingsDialog"
             fullscreen
@@ -92,18 +92,17 @@ export default {
     if (udata) this.$store.state.customizations = JSON.parse(udata);
     const usettings = localStorage.getItem('hcbetaSettings');
     if (usettings) this.$store.state.settings = JSON.parse(usettings)
-    
+    const uassignments = localStorage.getItem('hcbetaAssignments');
+    if (uassignments) this.$store.state.assignments = JSON.parse(uassignments);
     const vapp = this;
     window.addEventListener('storage', function(e) {
       this.$vuetify.theme.dark = JSON.parse(localStorage.getItem('hcbetaDark')||JSON.stringify(this.$vuetify.theme.dark))
       const udata = localStorage.getItem('hcbetaCustomizations');
-      if (udata){
-        //console.log(udata)
-        vapp.$store.state.customizations = JSON.parse(udata)
-      }
-      else {
-        // console.log("hmmm")
-      }
+      if (udata) this.$store.state.customizations = JSON.parse(udata);
+      const usettings = localStorage.getItem('hcbetaSettings');
+      if (usettings) this.$store.state.settings = JSON.parse(usettings)
+      const uassignments = localStorage.getItem('hcbetaAssignments');
+      if (uassignments) this.$store.state.assignments = JSON.parse(uassignments);
     });
     
   },

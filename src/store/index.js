@@ -4,6 +4,20 @@ import colors from 'vuetify/lib/util/colors'
 Vue.use(Vuex)
 import vuetify from "@/plugins/vuetify";
 
+// dec2hex :: Integer -> String
+// i.e. 0-255 -> '00'-'ff'
+function dec2hex (dec) {
+  return dec < 10
+      ? '0' + String(dec)
+      : dec.toString(16)
+}
+
+// generateId :: Integer -> String
+function generateId (len) {
+  var arr = new Uint8Array((len || 40) / 2)
+  window.crypto.getRandomValues(arr)
+  return Array.from(arr, dec2hex).join('')
+}
 
 export default new Vuex.Store({
   state: {
@@ -684,15 +698,34 @@ export default new Vuex.Store({
     settings:{
       militaryTime:false,
       insetSlider:false
-    }
+    },
+    assignments:[]
   },
   mutations: {
+    newAssignment(state,{title, description, dueDate, courseId}){
+      // so later we can do new Date(...assignment.dueDateParams)
+      console.log(title)
+      state.assignments.push({
+        title,description,courseId,dueDateParams:[
+            dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate(), dueDate.getHours(), dueDate.getMinutes()
+        ],
+        id: generateId(), // unique id for the assignment
+        status:0 // 0 means unfinished, 1 means completed
+      })
+    }
   },
   actions: {
     saveToLocal(context){
+      localStorage.setItem('hcbetaAssignments',JSON.stringify(context.state.assignments))
       localStorage.setItem('hcbetaSettings',JSON.stringify(context.state.settings))
       localStorage.setItem('hcbetaCustomizations',JSON.stringify(context.state.customizations));
       localStorage.setItem('dataVersion','1.0.0')
+    },
+    newAssignment(context,payload){
+      context.commit('newAssignment',payload);
+      context.dispatch('saveToLocal').then(()=>{
+        console.log("Assignment saved successfully.")
+      })
     }
   },
   modules: {
@@ -815,7 +848,20 @@ export default new Vuex.Store({
 
       }
       return upcoming
+    },
+    assignments: state => {
+      return state.assignments.map(function (asg) {
+        console.log(asg.description)
+        return {
+          ...asg,
+          dueDate: new Date(...asg.dueDateParams)
+        }
+      }).sort(function (a,b) {
+        return a.dueDate - b.dueDate
+
+      })
     }
+
   }
 
 })
