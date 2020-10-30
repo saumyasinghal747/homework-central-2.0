@@ -643,6 +643,8 @@ export default new Vuex.Store({
       ]
     },
     notRnd:Date.now(),
+    settingsDialog:false,
+    assignmentDialog:false,
     offsetTop:0,
     calendarType:"day",
     validIds:["Period 1","Period 2","Period 3","Period 4","Period 5","Period 6","Period 7","Period 8","Lunch","Other"],
@@ -719,7 +721,7 @@ export default new Vuex.Store({
       else{
         //console.log("default");
         //if (mainView) this.holidayReason = null;
-        return sched.defaults[dob.getDay()].map(function (event) {
+        return (sched.defaults[dob.getDay()]||[]).map(function (event) {
           return {
             name: (state.customizations[event.name]||{name:undefined}).name || event.name,
             id:event.name,

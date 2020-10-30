@@ -4,29 +4,67 @@
       <router-view ref="routerView"/>
     </v-main>
     <BottomNav />
+    <Assignment/>
     <v-dialog
             v-model="$store.state.settingsDialog"
             fullscreen
             hide-overlay
             transition="dialog-bottom-transition"
-    bottom right
+    
     >
       <template v-slot:activator="{on, attrs}">
-        <v-btn small
-              v-bind="attrs"
-              v-on="on"
-                color="blue darken-2" class="mb-13"
-                dark
-               style="position: fixed;bottom:15px;right:15px" right bottom
-                fab
+        <v-speed-dial
+                v-model="fab"
+                
+                style="position: fixed;bottom:71px;right:15px"
+                
         >
-          <v-icon v-if="false">
-            mdi-close
-          </v-icon>
-          <v-icon v-else>
-            mdi-cog
-          </v-icon>
-        </v-btn>
+          <template v-slot:activator>
+            <v-btn
+              
+                    v-model="fab"
+                    color="purple"
+                    dark
+                    
+                    fab
+            >
+              <v-icon v-if="fab">
+                mdi-close
+              </v-icon>
+              <v-icon v-else>
+                mdi-wrench
+              </v-icon>
+            </v-btn>
+          </template>
+          <v-btn
+                  fab
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                  small
+                  color="primary"
+          >
+            <v-icon>mdi-cog</v-icon>
+          </v-btn>
+          <v-btn
+                  fab
+                  dark
+                  small
+                  color="green"
+                  @click.stop="$store.state.assignmentDialog =true"
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+          <v-btn
+                  v-if="false"
+                  fab
+                  dark
+                  small
+                  color="red"
+          >
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </v-speed-dial>
       </template>
       <Settings/>
     </v-dialog>
@@ -38,11 +76,13 @@
 import BottomNav from "@/components/BottomNav";
 import Settings from "@/views/Settings";
 import store from "@/store";
+import Assignment from "@/components/Assignment";
 
 export default {
   name: 'App',
 
   components: {
+    Assignment,
     Settings,
     BottomNav
   },
@@ -68,7 +108,7 @@ export default {
     
   },
   data: () => ({
-  
+    fab:false
   }),
 };
 </script>
