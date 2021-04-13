@@ -111,3 +111,9 @@ export default {
   }),
 };
 </script>
+<style>
+  .titlebar {
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+  }
+</style>

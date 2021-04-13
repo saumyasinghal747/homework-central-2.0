@@ -42,11 +42,6 @@
 					<v-text-field  color="green" label="Title" v-model="title"></v-text-field>
 				</v-list-item-content>
 			</v-list-item>
-			<v-list-item>
-				<v-list-item-content>
-					<v-textarea v-model="description" auto-grow label="Description"></v-textarea>
-				</v-list-item-content>
-			</v-list-item>
 		
 		</v-list>
 		<v-divider></v-divider>
@@ -148,7 +143,6 @@
         name: "Assignment",
         data: () => ({
             title:"",
-	        description:"",
 	        courseId:"Period 1",
 	        menu1:false,
 	        menu2:false,
@@ -198,7 +192,6 @@
 	        createAssignment(){
                 this.$store.dispatch('newAssignment',{
                     title:this.title,
-	                description: this.description,
 	                dueDate: this.dueDate,
 	                courseId: this.courseId
                 });

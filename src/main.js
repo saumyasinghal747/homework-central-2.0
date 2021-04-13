@@ -5,6 +5,15 @@ import router from './router'
 import vuetify from './plugins/vuetify';
 import 'vuetify/dist/vuetify.min.css'
 import store from './store'
+import {database} from "@/plugins/firebase";
+
+
+//const CALIFORNIA_UTC_OFFSET = 480;
+
+function convertTZ(date, tzString) {
+  return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));
+}
+
 Vue.config.productionTip = false
 Date.prototype.addDays = function(days) {
   const date = new Date(this.valueOf());
@@ -34,3 +43,7 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+
+database.ref('schedule').on('value',function (snapshot) {
+  store.commit('updateSchedule',snapshot.val())
+})

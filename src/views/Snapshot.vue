@@ -26,13 +26,19 @@
 				:value="$store.getters.currentEvent.percent"
 				:color="($store.state.customizations[$store.getters.currentEvent.id]||{color:'blue-grey'}).color"
 		>
-			<v-col class="text-center">
+			<v-col class="text-center" v-if="$store.getters.currentEvent.isValid">
 				<v-row>
 					<span class="display-4 mx-auto">{{Math.ceil($store.getters.currentEvent.remaining||$store.getters.currentEvent.elapsed)}}</span>
 				</v-row>
 				<v-row><span class=" mx-auto">minutes {{$store.getters.currentEvent.displayText}}</span></v-row>
 				<v-row><span class=" display-1 mx-auto mt-2">{{$store.getters.currentEvent.name}}</span></v-row>
 				<v-row></v-row>
+			</v-col>
+			<v-col v-else>
+				<v-row>
+					<span class="display-2 mx-auto">No School</span>
+				</v-row>
+				<v-row><span class="display-2 mt-2 mx-auto">Today</span></v-row>
 			</v-col>
 		</v-progress-circular>
 		

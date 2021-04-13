@@ -14,7 +14,7 @@ function dec2hex (dec) {
 
 // generateId :: Integer -> String
 function generateId (len) {
-  var arr = new Uint8Array((len || 40) / 2)
+  const arr = new Uint8Array((len || 40) / 2);
   window.crypto.getRandomValues(arr)
   return Array.from(arr, dec2hex).join('')
 }
@@ -22,638 +22,131 @@ function generateId (len) {
 export default new Vuex.Store({
   state: {
     theSchedule:{
-      "holidays": {
-        "8-7-2020": "Labor Day"
+      holidays:{
+        "8-7-2020":"Labor Day",
+        "10-11-2020":"Veteran's Day"
       },
-      "vacations": {},
-      "overrides": {
-        "7-17-2020": [
-          {
-            "name": "Assembly",
-            "start": [
-              10,
-              0
-            ],
-            "end": [
-              11,
-              0
-            ]
-          },
-          {
-            "name": "Period 1",
-            "start": [
-              11,
-              10
-            ],
-            "end": [
-              11,
-              30
-            ]
-          },
-          {
-            "name": "Period 2",
-            "start": [
-              11,
-              40
-            ],
-            "end": [
-              12,
-              0
-            ]
-          },
-          {
-            "name": "Period 3",
-            "start": [
-              12,
-              10
-            ],
-            "end": [
-              12,
-              30
-            ]
-          },
-          {
-            "name": "Lunch",
-            "start": [
-              12,
-              30
-            ],
-            "end": [
-              13,
-              0
-            ]
-          },
-          {
-            "name": "Period 4",
-            "start": [
-              13,
-              10
-            ],
-            "end": [
-              13,
-              35
-            ]
-          },
-          {
-            "name": "Period 5",
-            "start": [
-              13,
-              45
-            ],
-            "end": [
-              14,
-              5
-            ]
-          },
-          {
-            "name": "Period 6",
-            "start": [
-              14,
-              15
-            ],
-            "end": [
-              14,
-              35
-            ]
-          },
-          {
-            "name": "Period 7",
-            "start": [
-              14,
-              45
-            ],
-            "end": [
-              15,
-              5
-            ]
-          },
-          {
-            "name": "Period 8",
-            "start": [
-              15,
-              15
-            ],
-            "end": [
-              15,
-              35
-            ]
-          }
+      vacations:{
+
+      },
+      overrides:{
+        "7-17-2020":[
+          {name:"Assembly", start:[10,0],end:[11,0]},
+          {name:"Period 1", start:[11,10],end:[11,30]},
+          {name:"Period 2", start:[11,40],end:[12,0]},
+          {name:"Period 3", start:[12,10],end:[12,30]},
+          {name:"Lunch", start:[12,30],end:[13,0]},
+          {name:"Period 4", start:[13,10],end:[13,35]},
+          {name:"Period 5", start:[13,45],end:[14,5]},
+          {name:"Period 6", start:[14,15],end:[14,35]},
+          {name:"Period 7", start:[14,45],end:[15,5]},
+          {name:"Period 8", start:[15,15],end:[15,35]}
         ],
-        "7-19-2020": [
-          {
-            "name": "Period 5",
-            "start": [
-              9,
-              40
-            ],
-            "end": [
-              10,
-              55
-            ]
-          },
-          {
-            "name": "Go to Period 5",
-            "start": [
-              11,
-              5
-            ],
-            "end": [
-              11,
-              40
-            ]
-          },
-          {
-            "name": "Lunch",
-            "start": [
-              11,
-              40
-            ],
-            "end": [
-              12,
-              10
-            ]
-          },
-          {
-            "name": "Period 6",
-            "start": [
-              12,
-              20
-            ],
-            "end": [
-              13,
-              35
-            ]
-          },
-          {
-            "name": "Period 7",
-            "start": [
-              13,
-              45
-            ],
-            "end": [
-              15,
-              0
-            ]
-          }
+        "7-19-2020":[
+          {name:"Period 5", start:[9,40],end:[10,55]},
+          {name:"Go to Period 5", start:[11,5],end:[11,40]},
+          {name:"Lunch", start:[11,40],end:[12,10]},
+          {name:"Period 6", start:[12,20],end:[13,35]},
+          {name:"Period 7", start:[13,45],end:[15,0]},
         ],
-        "8-2-2020": [
-          {
-            "name": "Period 5",
-            "start": [
-              9,
-              40
-            ],
-            "end": [
-              10,
-              55
-            ]
-          },
-          {
-            "name": "SELF",
-            "start": [
-              11,
-              5
-            ],
-            "end": [
-              11,
-              40
-            ]
-          },
-          {
-            "name": "Lunch",
-            "start": [
-              11,
-              40
-            ],
-            "end": [
-              12,
-              10
-            ]
-          },
-          {
-            "name": "Period 6",
-            "start": [
-              12,
-              20
-            ],
-            "end": [
-              13,
-              40
-            ]
-          },
-          {
-            "name": "Period 7",
-            "start": [
-              13,
-              50
-            ],
-            "end": [
-              15,
-              5
-            ]
-          }
+        "8-2-2020":[
+          {name:"Period 5", start:[9,40],end:[10,55]},
+          {name:"SELF", start:[11,5],end:[11,40]},
+          {name:"Lunch", start:[11,40],end:[12,10]},
+          {name:"Period 6", start:[12,20],end:[13,40]},
+          {name:"Period 7", start:[13,50],end:[15,5]}
         ],
-        "8-4-2020": [
-          {
-            "name": "Collab/Prep",
-            "start": [
-              8,
-              30
-            ],
-            "end": [
-              9,
-              35
-            ]
-          },
-          {
-            "name": "Period 5",
-            "start": [
-              9,
-              40
-            ],
-            "end": [
-              10,
-              45
-            ]
-          },
-          {
-            "name": "Period 6",
-            "start": [
-              10,
-              55
-            ],
-            "end": [
-              12,
-              5
-            ]
-          },
-          {
-            "name": "Period 7",
-            "start": [
-              12,
-              15
-            ],
-            "end": [
-              1,
-              20
-            ]
-          }
+        "8-4-2020":[
+          {name:"Collab/Prep",start:[8,30],end:[9,35]},
+          {name:"Period 5",start: [9,40],end: [10,45]},
+          {name:"Period 6",start:[10,55],end:[12,5]},
+          {name:"Period 7",start:[12,15],end:[1,20]}
+        ],
+        "10-9-2020":[
+          {name:"Period 1", start:[9,0],end:[10,15]},
+          {name:"Period 2", start:[10,25],end:[11,40]},
+          {name:"Lunch", start:[11,40],end:[12,10]},
+          {name:"Period 3", start:[12,20],end:[13,40]},
+          {name:"Period 4", start:[13,50],end:[15,5]},
+
+          {name:"Period 8", start:[15,45],end:[17,0]}
+        ],
+        "10-10-2020":[
+          {name:"Period 5", start:[9,40],end:[10,55]},
+          {name:"SELF", start:[11,5],end:[11,40]},
+          {name:"Lunch", start:[11,40],end:[12,10]},
+          {name:"Period 6", start:[12,20],end:[13,40]},
+          {name:"Period 7", start:[13,50],end:[15,5]},
+
+        ],
+        "10-12-2020":[
+          {name:"Period 1", start:[9,0],end:[10,15]},
+          {name:"Period 2", start:[10,25],end:[11,40]},
+          {name:"Lunch", start:[11,40],end:[12,10]},
+          {name:"Period 3", start:[12,20],end:[13,40]},
+          {name:"Period 4", start:[13,50],end:[15,5]},
+
+          {name:"Period 8", start:[15,45],end:[17,0]}
+        ],
+        "10-13-2020":[
+          {name:"Period 5", start:[9,40],end:[10,55]},
+          {name:"Gunn Together", start:[11,5],end:[11,40]},
+          {name:"Lunch", start:[11,40],end:[12,10]},
+          {name:"Period 6", start:[12,20],end:[13,40]},
+          {name:"Period 7", start:[13,50],end:[15,5]},
+
         ]
       },
-      "defaults": [
+      //array where 0:Sunday, 6:Saturday
+      defaults:[
         null,
         [
-          {
-            "name": "Period 1",
-            "start": [
-              10,
-              0
-            ],
-            "end": [
-              10,
-              30
-            ]
-          },
-          {
-            "name": "Period 2",
-            "start": [
-              10,
-              40
-            ],
-            "end": [
-              11,
-              10
-            ]
-          },
-          {
-            "name": "Period 3",
-            "start": [
-              11,
-              20
-            ],
-            "end": [
-              11,
-              50
-            ]
-          },
-          {
-            "name": "Period 4",
-            "start": [
-              12,
-              0
-            ],
-            "end": [
-              12,
-              35
-            ]
-          },
-          {
-            "name": "Lunch",
-            "start": [
-              12,
-              35
-            ],
-            "end": [
-              13,
-              5
-            ]
-          },
-          {
-            "name": "Period 5",
-            "start": [
-              13,
-              15
-            ],
-            "end": [
-              13,
-              45
-            ]
-          },
-          {
-            "name": "Period 6",
-            "start": [
-              13,
-              55
-            ],
-            "end": [
-              14,
-              25
-            ]
-          },
-          {
-            "name": "Period 7",
-            "start": [
-              14,
-              35
-            ],
-            "end": [
-              15,
-              5
-            ]
-          },
-          {
-            "name": "Period 8",
-            "start": [
-              15,
-              45
-            ],
-            "end": [
-              16,
-              15
-            ]
-          }
+          {name:"Period 1", start:[10,0],end:[10,30]},
+          {name:"Period 2", start:[10,40],end:[11,10]},
+          {name:"Period 3", start:[11,20],end:[11,50]},
+          {name:"Period 4", start:[12,0],end:[12,35]},
+          {name:"Lunch", start:[12,35],end:[13,5]},
+          {name:"Period 5", start:[13,15],end:[13,45]},
+          {name:"Period 6", start:[13,55],end:[14,25]},
+          {name:"Period 7", start:[14,35],end:[15,5]},
+          {name:"Period 8", start:[15,45],end:[16,15]}
         ],
         [
-          {
-            "name": "Period 1",
-            "start": [
-              9,
-              0
-            ],
-            "end": [
-              10,
-              15
-            ]
-          },
-          {
-            "name": "Period 2",
-            "start": [
-              10,
-              25
-            ],
-            "end": [
-              11,
-              40
-            ]
-          },
-          {
-            "name": "Lunch",
-            "start": [
-              11,
-              40
-            ],
-            "end": [
-              12,
-              10
-            ]
-          },
-          {
-            "name": "Period 3",
-            "start": [
-              12,
-              20
-            ],
-            "end": [
-              13,
-              40
-            ]
-          },
-          {
-            "name": "Period 4",
-            "start": [
-              13,
-              50
-            ],
-            "end": [
-              15,
-              5
-            ]
-          },
-          {
-            "name": "Period 8",
-            "start": [
-              15,
-              45
-            ],
-            "end": [
-              17,
-              0
-            ]
-          }
+          {name:"Period 1", start:[9,0],end:[10,15]},
+          {name:"Period 2", start:[10,25],end:[11,40]},
+          {name:"Lunch", start:[11,40],end:[12,10]},
+          {name:"Period 3", start:[12,20],end:[13,40]},
+          {name:"Period 4", start:[13,50],end:[15,5]},
+
+          {name:"Period 8", start:[15,45],end:[17,0]}
         ],
         [
-          {
-            "name": "Period 5",
-            "start": [
-              9,
-              40
-            ],
-            "end": [
-              10,
-              55
-            ]
-          },
-          {
-            "name": "Gunn Together",
-            "start": [
-              11,
-              5
-            ],
-            "end": [
-              11,
-              40
-            ]
-          },
-          {
-            "name": "Lunch",
-            "start": [
-              11,
-              40
-            ],
-            "end": [
-              12,
-              10
-            ]
-          },
-          {
-            "name": "Period 6",
-            "start": [
-              12,
-              20
-            ],
-            "end": [
-              13,
-              40
-            ]
-          },
-          {
-            "name": "Period 7",
-            "start": [
-              13,
-              50
-            ],
-            "end": [
-              15,
-              5
-            ]
-          }
+          {name:"Period 5", start:[9,40],end:[10,55]},
+          {name:"Gunn Together", start:[11,5],end:[11,40]},
+          {name:"Lunch", start:[11,40],end:[12,10]},
+          {name:"Period 6", start:[12,20],end:[13,40]},
+          {name:"Period 7", start:[13,50],end:[15,5]},
+
         ],
         [
-          {
-            "name": "Period 1",
-            "start": [
-              9,
-              0
-            ],
-            "end": [
-              10,
-              15
-            ]
-          },
-          {
-            "name": "Period 2",
-            "start": [
-              10,
-              25
-            ],
-            "end": [
-              11,
-              40
-            ]
-          },
-          {
-            "name": "Lunch",
-            "start": [
-              11,
-              40
-            ],
-            "end": [
-              12,
-              10
-            ]
-          },
-          {
-            "name": "Period 3",
-            "start": [
-              12,
-              20
-            ],
-            "end": [
-              13,
-              40
-            ]
-          },
-          {
-            "name": "Period 4",
-            "start": [
-              13,
-              50
-            ],
-            "end": [
-              15,
-              5
-            ]
-          },
-          {
-            "name": "Period 8",
-            "start": [
-              15,
-              45
-            ],
-            "end": [
-              17,
-              0
-            ]
-          }
+          {name:"Period 1", start:[9,0],end:[10,15]},
+          {name:"Period 2", start:[10,25],end:[11,40]},
+          {name:"Lunch", start:[11,40],end:[12,10]},
+          {name:"Period 3", start:[12,20],end:[13,40]},
+          {name:"Period 4", start:[13,50],end:[15,5]},
+
+          {name:"Period 8", start:[15,45],end:[17,0]}
         ],
         [
-          {
-            "name": "Period 5",
-            "start": [
-              9,
-              40
-            ],
-            "end": [
-              10,
-              55
-            ]
-          },
-          {
-            "name": "SELF",
-            "start": [
-              11,
-              5
-            ],
-            "end": [
-              11,
-              40
-            ]
-          },
-          {
-            "name": "Lunch",
-            "start": [
-              11,
-              40
-            ],
-            "end": [
-              12,
-              10
-            ]
-          },
-          {
-            "name": "Period 6",
-            "start": [
-              12,
-              20
-            ],
-            "end": [
-              13,
-              40
-            ]
-          },
-          {
-            "name": "Period 7",
-            "start": [
-              13,
-              50
-            ],
-            "end": [
-              15,
-              5
-            ]
-          }
+          {name:"Period 5", start:[9,40],end:[10,55]},
+          {name:"SELF", start:[11,5],end:[11,40]},
+          {name:"Lunch", start:[11,40],end:[12,10]},
+          {name:"Period 6", start:[12,20],end:[13,40]},
+          {name:"Period 7", start:[13,50],end:[15,5]},
+
         ],
         null
+
       ]
     },
     notRnd:Date.now(),
@@ -702,11 +195,14 @@ export default new Vuex.Store({
     assignments:[]
   },
   mutations: {
-    newAssignment(state,{title, description, dueDate, courseId}){
+    updateSchedule:function(state, schedule){
+      state.theSchedule = schedule
+},
+    newAssignment(state,{title,  dueDate, courseId}){
       // so later we can do new Date(...assignment.dueDateParams)
-      console.log(title)
+      //console.log(title)
       state.assignments.push({
-        title,description,courseId,dueDateParams:[
+        title,courseId,dueDateParams:[
             dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate(), dueDate.getHours(), dueDate.getMinutes()
         ],
         id: generateId(), // unique id for the assignment
@@ -726,6 +222,29 @@ export default new Vuex.Store({
       context.dispatch('saveToLocal').then(()=>{
         console.log("Assignment saved successfully.")
       })
+    },
+    completeAssignment(context,assignmentId){
+      console.log(context.state.assignments.filter((x)=>(x && x.id===assignmentId)))
+      context.state.assignments[context.state.assignments.indexOf(context.state.assignments.filter((x)=>(x && x.id===assignmentId))[0])].status = 1 //status of 1 means completed
+      context.dispatch('saveToLocal').then(()=>{
+        console.log("Completion status saved successfully.")
+      })
+      // maybe do something else?
+    },
+    uncompleteAssignment(context,assignmentId){
+      context.state.assignments[context.state.assignments.indexOf(context.state.assignments.filter((x)=>(x && x.id===assignmentId))[0])].status = 0 //status of 1 means completed
+      context.dispatch('saveToLocal').then(()=>{
+        console.log("Completion status saved successfully.")
+      })
+      // maybe do something else?
+    },
+    deleteAssignment(context,assignmentId){
+      console.log(context.state.assignments.filter((x)=>(x && x.id===assignmentId))[0])
+      delete context.state.assignments[context.state.assignments.indexOf(context.state.assignments.filter((x)=>(x && x.id===assignmentId))[0])];
+      //console.log(context.state.assignments[assignmentId][0])
+      context.dispatch('saveToLocal').then(()=>{
+        console.log("Deletion saved successfully.")
+      })
     }
   },
   modules: {
@@ -743,7 +262,16 @@ export default new Vuex.Store({
       if (ref in sched.overrides){
         //console.log("overridden");
 
-        return sched.overrides[ref];
+        return sched.overrides[ref].map(function (event) {
+          return {
+            name: (state.customizations[event.name]||{name:undefined}).name || event.name,
+            id:event.name,
+            start: new Date(dob.getFullYear(),dob.getMonth(),dob.getDate(),event.start[0],event.start[1]),
+            end:new Date(dob.getFullYear(),dob.getMonth(),dob.getDate(),event.end[0],event.end[1]),
+            timed:true,
+            color:(state.customizations[event.name] || {color:"blue-grey"}).color
+          }
+        });
       }
       else if (ref in sched.holidays){
        /* if (mainView) {
@@ -794,7 +322,7 @@ export default new Vuex.Store({
             name: (state.customizations[event.name]||{name:undefined} ).name||event.name,
             id: event.id,
             displayText:"left in",
-            remaining: (+end-now)/60000,
+            remaining: Math.ceil((+end-now)/60000),
             elapsed:(+now-start)/60000,
             total:(+end-start)/60000,
             percent: (+now-start)*(100)/(+end-start),
@@ -822,9 +350,10 @@ export default new Vuex.Store({
 
       return {
         type:"none",
-        name:"the day",
+        name:"today",
         isValid:false,
-        remaining: "No School"
+        remaining: "No School",
+        percent: 0
       }
 
     },
@@ -850,17 +379,34 @@ export default new Vuex.Store({
       return upcoming
     },
     assignments: state => {
-      return state.assignments.map(function (asg) {
-        console.log(asg.description)
-        return {
+      let clone = JSON.parse(JSON.stringify(state.assignments))
+       clone = clone.reduce(function (result, asg) {
+         //console.log(result)
+        if (!asg)  return result;
+
+        result.push({
           ...asg,
           dueDate: new Date(...asg.dueDateParams)
-        }
-      }).sort(function (a,b) {
+        })
+         return result;
+      },[]);
+      console.log(clone)
+      return clone.sort(function (a,b) {
         return a.dueDate - b.dueDate
 
       })
+    },
+    pendingAssignments: (state, getters) => {
+      return getters.assignments.filter((a)=>(a.status===0)).sort(function (a,b) {
+        return a.dueDate - b.dueDate
+      })
+    },
+    completedAssignments: (state, getters) => {
+      return getters.assignments.filter((a)=>(a.status===1)).sort(function (a,b) {
+        return a.dueDate - b.dueDate
+      })
     }
+
 
   }
 
